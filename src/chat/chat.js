@@ -11,6 +11,20 @@ const badRequest = (message) => ({
   body: JSON.stringify({ success: false, message }),
 });
 
+const extractReplyText = (data) => {
+  if (typeof data?.output_text === 'string' && data.output_text.trim()) {
+    return data.output_text.trim();
+  }
+
+  const parts = data?.output
+    ?.flatMap((item) => item?.content || [])
+    ?.filter((item) => item?.type === 'output_text')
+    ?.map((item) => item?.text || '')
+    ?.filter(Boolean);
+
+  return parts?.join('\n').trim() || '';
+};
+
 export const handler = async (event) => {
   if (!process.env.OPENAI_API_KEY) {
     return {
@@ -94,13 +108,14 @@ export const handler = async (event) => {
       throw new Error(data?.error?.message || 'OpenAI request failed.');
     }
 
+    const reply = extractReplyText(data);
+
     return {
       statusCode: 200,
       headers: jsonHeaders,
       body: JSON.stringify({
         success: true,
-        reply: data.output_text || '',
-        model: data.model,
+        reply,
       }),
     };
   } catch (error) {
