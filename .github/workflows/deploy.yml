@@ -18,8 +18,6 @@ jobs:
   deploy:
     name: Deploy (${{ github.ref_name }})
     runs-on: ubuntu-latest
-    env:
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
     steps:
       # ── 1. Checkout code ───────────────────────────────────────
