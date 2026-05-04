@@ -9,8 +9,7 @@ provider:
   timeout: 30
   environment:
     NODE_ENV: ${opt:stage, 'dev'}
-    # Add your SSM keys here as you need them:
-    # OPENAI_API_KEY: ${ssm:OPENAI_API_KEY}
+    OPENAI_API_KEY: ${ssm:OPENAI_API_KEY}
   tags:
     project: my-serverless-api
     environment: ${opt:stage, 'dev'}
