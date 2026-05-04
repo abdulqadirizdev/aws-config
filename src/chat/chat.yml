@@ -1,0 +1,8 @@
+chat:
+  handler: src/chat/chat.handler
+  description: Chat with OpenAI using text and optional public image URL
+  events:
+    - http:
+        path: /chat
+        method: post
+        cors: true

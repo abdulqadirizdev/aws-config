@@ -1,0 +1,16 @@
+{
+  "name": "my-serverless-api",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Serverless REST API — auto-deployed via GitHub Actions",
+  "scripts": {
+    "deploy:dev": "serverless deploy --stage dev",
+    "deploy:prod": "serverless deploy --stage prod",
+    "remove:dev": "serverless remove --stage dev",
+    "logs": "serverless logs -f chat --stage dev --tail"
+  },
+  "devDependencies": {
+    "serverless": "^3.38.0",
+    "serverless-prune-plugin": "^2.0.2"
+  }
+}

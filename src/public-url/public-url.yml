@@ -1,0 +1,8 @@
+publicUrl:
+  handler: src/public-url/public-url.handler
+  description: Convert a presigned URL into a plain public object URL
+  events:
+    - http:
+        path: /public-url
+        method: post
+        cors: true

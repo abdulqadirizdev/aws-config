@@ -1,0 +1,40 @@
+service: my-serverless-api
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs24.x
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  timeout: 30
+  environment:
+    NODE_ENV: ${opt:stage, 'dev'}
+    # Add your SSM keys here as you need them:
+    # OPENAI_API_KEY: ${ssm:OPENAI_API_KEY}
+  tags:
+    project: my-serverless-api
+    environment: ${opt:stage, 'dev'}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - execute-api:ManageConnections
+          Resource:
+            - Fn::Sub: 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*/*'
+
+functions:
+  - ${file(./src/chat/chat.yml)}
+  - ${file(./src/public-url/public-url.yml)}
+
+package:
+  individually: false
+  excludeDevDependencies: true
+
+plugins:
+  - serverless-prune-plugin
+
+custom:
+  prune:
+    automatic: true
+    number: 2
