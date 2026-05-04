@@ -10,6 +10,7 @@ provider:
   environment:
     NODE_ENV: ${opt:stage, 'dev'}
     OPENAI_API_KEY: ${ssm:OPENAI_API_KEY}
+    UPLOAD_BUCKET: ${ssm:UPLOAD_BUCKET}
   tags:
     project: my-serverless-api
     environment: ${opt:stage, 'dev'}
@@ -21,6 +22,11 @@ provider:
             - execute-api:ManageConnections
           Resource:
             - Fn::Sub: 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*/*'
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+          Resource:
+            - Fn::Sub: arn:aws:s3:::${self:provider.environment.UPLOAD_BUCKET}/*
 
 functions:
   - ${file(./src/chat/chat.yml)}

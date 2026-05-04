@@ -1,7 +1,11 @@
 publicUrl:
   handler: src/public-url/public-url.handler
-  description: Convert a presigned URL into a plain public object URL
+  description: Generate a presigned S3 upload URL and return the resulting public URL
   events:
+    - http:
+        path: /presigned-url
+        method: post
+        cors: true
     - http:
         path: /public-url
         method: post
