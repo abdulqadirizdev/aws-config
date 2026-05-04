@@ -6,7 +6,3 @@ publicUrl:
         path: /presigned-url
         method: post
         cors: true
-    - http:
-        path: /public-url
-        method: post
-        cors: true
